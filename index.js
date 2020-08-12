@@ -5,6 +5,7 @@ const request = require('request')
 const progress = require('request-progress')
 const zlib  = require('zlib');
 const fs = require('fs')
+const oFS = require('original-fs')
 const crypto = require('crypto')
 const semverDiff = require('semver-diff')
 const log = require('electron-log')
@@ -226,7 +227,7 @@ var Updater = {
             Updater.log('ZipFilePath: ' + AppPathFolder)
             try {
               let unzipped = zlib.unzipSync(body);
-              fs.writeFileSync(updateFile, unzipped);
+              oFS.writeFileSync(updateFile, unzipped);
               // Store the update file path
               Updater.update.file = updateFile
               Updater.log('Updater.update.file: ' + updateFile)
