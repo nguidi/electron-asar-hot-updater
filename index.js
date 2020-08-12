@@ -3,7 +3,7 @@ const FileSystem = require('original-fs')
 const Utils = require('util')
 const request = require('request')
 const progress = require('request-progress')
-const admZip = require('adm-zip')
+const zlib  = require('zlib');
 const fs = require('fs')
 const crypto = require('crypto')
 const semverDiff = require('semver-diff')
@@ -225,8 +225,8 @@ var Updater = {
           if (contentType && contentType.indexOf('zip') > -1) {
             Updater.log('ZipFilePath: ' + AppPathFolder)
             try {
-              const zip = new admZip(body)
-              zip.extractAllTo(AppPathFolder, true)
+              let unzipped = zlib.unzipSync(body);
+              fs.writeFileSync(updateFile, unzipped);
               // Store the update file path
               Updater.update.file = updateFile
               Updater.log('Updater.update.file: ' + updateFile)
